@@ -1,5 +1,6 @@
 public class CentroComercial {
     public static void main(String[] args) {
+        // Constantes descriptivas para evitar números mágicos
         final int MINUTOS_JORNADA = 12 * 60; 
         
         int[] clientesAtendidosPorCaja = { 0, 0, 0, 0, 0 }; 
@@ -14,7 +15,7 @@ public class CentroComercial {
 
         for (int minutoActual = 1; minutoActual < MINUTOS_JORNADA; minutoActual++) {
 
-           
+            // 40% de probabilidad de llegada de un cliente (Regla de negocio)
             if (Math.random() * 100 < 40) { 
                 haLlegadoNuevoCliente = true;
                 clientesEnCola++; 
@@ -45,16 +46,21 @@ public class CentroComercial {
 
             if (clientesEnCola == 0) minutosSinCola++;
           
-           
+            // Estándares: Delegamos la impresión a un método especializado
             imprimirEstadoMinuto(minutoActual, haLlegadoNuevoCliente, clientesEnCola, tiempoAtencionRestante, esCajaExtraHabilitada);
             haLlegadoNuevoCliente = false;
+
+            // La caja extra se habilita si la saturación supera las 15 personas
             esCajaExtraHabilitada = (clientesEnCola >= 15);
         }
 
         imprimirReporteFinal(clientesAtendidosPorCaja, totalProductosVendidos, minutosSinCola, clientesEnCola);
     }
 
-
+    /**
+     * Imprime el estado visual de las cajas en cada minuto.
+     * Mejora de Formato: Se utiliza printf para evitar líneas horizontales infinitas.
+     */
     private static void imprimirEstadoMinuto(int min, boolean llego, int cola, int[] cajas, boolean extra) {
         System.out.println("--------------------------------------------------------------");
         System.out.printf("MINUTO %03d | %-12s | COLA: %d\n", 
@@ -71,7 +77,10 @@ public class CentroComercial {
         }
     }
 
-    
+    /**
+     * Imprime el resumen estadístico del día.
+     * Estándares: Separación de la lógica de presentación del reporte.
+     */
     private static void imprimirReporteFinal(int[] atendidos, int vendidos, int sinCola, int colaFinal) {
         System.out.println("\n" + "=".repeat(20) + " RESUMEN FINAL " + "=".repeat(20));
         for (int i = 0; i < atendidos.length; i++) {
